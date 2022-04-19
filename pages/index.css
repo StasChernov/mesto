@@ -1,5 +1,5 @@
 @import url(../vendor/normalize.css);
-@import url(./fonts.css);
+@import url(../vendor/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
@@ -26,8 +26,4 @@
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/__save/popup__save.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
-@import url(../blocks/popup/__input-string/popup__input-string.css);
-
-/*h1, h2, p, header, div, footer, body, img, main, li, section {
-    border: solid 1px red;
-}*/
+@import url(../blocks/popup/__input/popup__input.css);
