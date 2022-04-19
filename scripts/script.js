@@ -1,16 +1,16 @@
-let openProfileBtn = document.querySelector('.profile__edit-button');
-let profilePopup = document.querySelector('.popup');
-let closeProfileBtn = profilePopup.querySelector('.popup__close');
-let submitProfile = profilePopup.querySelector('.popup__edit-profile');
-let profileFullName = document.querySelector('.profile__full-name');
-let profileAbout = document.querySelector('.profile__about');
-let profilePopupFullName = document.querySelector('.popup__full-name');
-let profilePopupAbout = document.querySelector('.popup__about');
+const openProfileBtn = document.querySelector('.profile__edit-button');
+const profilePopup = document.querySelector('.popup');
+const closeProfileBtn = profilePopup.querySelector('.popup__close');
+const submitProfile = profilePopup.querySelector('.popup__edit-profile');
+const profileFullName = document.querySelector('.profile__full-name');
+const profileAbout = document.querySelector('.profile__about');
+const profilePopupFullName = document.querySelector('.popup__input-string_type_full-name');
+const profilePopupAbout = document.querySelector('.popup__input-string_type_about');
 
 function profilePopupOpen() {
   profilePopup.classList.add('popup_opened');
   profilePopupFullName.value = profileFullName.textContent;
-  profilePopupAbout.setAttribute('value', profileAbout.textContent);
+  profilePopupAbout.value = profileAbout.textContent;
 }
 
 function profilePopupClose() {
@@ -19,9 +19,9 @@ function profilePopupClose() {
 
 function profilePopupSave(event) {
   event.preventDefault();
-  profilePopup.classList.remove('popup_opened');
+  profilePopupClose();
   profileFullName.textContent = profilePopupFullName.value;
-  profileAbout.textContent = profilePopupAbout.value;  
+  profileAbout.textContent = profilePopupAbout.value;
 }
 
 openProfileBtn.addEventListener('click', profilePopupOpen);
