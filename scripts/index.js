@@ -25,36 +25,9 @@ const cardTemplate = document.querySelector('#element-template').content.querySe
 
 const cardContainer = document.querySelector('.elements');
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 function openPopupEditProfile(popup) {
-  popup.querySelector('.popup__input_type_full-name').value = profileFullName.textContent;
-  popup.querySelector('.popup__input_type_about').value = profileAbout.textContent;
+  profilePopupFullName.value = profileFullName.textContent;
+  profilePopupAbout.value = profileAbout.textContent;
   openPopup(popup);
 }
 
@@ -66,22 +39,22 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-function profilePopupSave(event) {
+function submitProfileForm(event) {
   event.preventDefault();
   profileFullName.textContent = profilePopupFullName.value;
   profileAbout.textContent = profilePopupAbout.value;
   closePopup(popupEditProfile);
 }
 
-function handleLikeCard(event){
+function likeCard(event){
   event.target.closest('.element__like').classList.toggle('element__like_liked');
 };
 
-function handleDeleteCard(event){
+function deleteCard(event){
   event.target.closest('.element').remove();
 };
 
-function handleSubmitAddNewCard(event){
+function submitNewCardForm(event){
   event.preventDefault();
   renderCard({ name: newCardName.value, link: newCardLink.value});
   newCardName.value = "";
@@ -89,11 +62,12 @@ function handleSubmitAddNewCard(event){
   closePopup(popupAddPlace);
 };
 
-function handleImageCard(cardData){
+function openImage(cardData){
   openPopup(popupImage);
   const popupImageCard = popupImage.querySelector('.popup__image');
   const popupImageTitle = popupImage.querySelector('.popup__image-title');
   popupImageCard.src = cardData.link;
+  popupImageCard.alt = cardData.name;
   popupImageTitle.textContent = cardData.name;
 }
 
@@ -106,13 +80,13 @@ function generateCard(cardData){
   const imageCard = newCard.querySelector('.element__image');
   imageCard.src = cardData.link;
   imageCard.alt = cardData.name
-  imageCard.addEventListener('click', () => handleImageCard(cardData));
+  imageCard.addEventListener('click', () => openImage(cardData));
 
   const trashButton = newCard.querySelector('.element__trash');
-  trashButton.addEventListener('click', handleDeleteCard);
+  trashButton.addEventListener('click', deleteCard);
 
   const likeButton = newCard.querySelector('.element__like');
-  likeButton.addEventListener('click', handleLikeCard);
+  likeButton.addEventListener('click', likeCard);
 
   return newCard;
 }
@@ -133,8 +107,8 @@ closeProfileBtn.addEventListener('click', () => closePopup(popupEditProfile));
 closeAddPlaceBtn.addEventListener('click',() => closePopup(popupAddPlace));
 closeImageBtn.addEventListener('click',() => closePopup(popupImage));
 
-submitProfile.addEventListener('submit', profilePopupSave);
-submitNewCard.addEventListener('submit', handleSubmitAddNewCard);
+submitProfile.addEventListener('submit', submitProfileForm);
+submitNewCard.addEventListener('submit', submitNewCardForm);
 
 
 
