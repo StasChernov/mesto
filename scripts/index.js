@@ -31,12 +31,20 @@ function openPopupEditProfile(popup) {
   openPopup(popup);
 }
 
+function closePopupByEscape(evt){
+    if (evt.key !== 'Escape') return;
+    const currentPopup = document.querySelector('.popup_opened');
+    closePopup(currentPopup);
+}
+
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEscape);
 }
 
 function submitProfileForm(event) {
@@ -99,6 +107,15 @@ initialCards.forEach((cardData) => {
   renderCard(cardData);
 });
 
+function closeByClickOnOverlay(){
+  const popupsList = document.querySelectorAll('.popup');
+  popupsList.forEach(popupElement => {
+    popupElement.addEventListener('click', (evt) => {
+      if (evt.target === evt.currentTarget) closePopup(popupElement);
+    })
+  });
+}
+
 openProfileBtn.addEventListener('click', () => openPopupEditProfile(popupEditProfile));
 openAddPlaceBtn.addEventListener('click',() => openPopup(popupAddPlace));
 
@@ -109,6 +126,8 @@ closeImageBtn.addEventListener('click',() => closePopup(popupImage));
 
 submitProfile.addEventListener('submit', submitProfileForm);
 submitNewCard.addEventListener('submit', submitNewCardForm);
+
+closeByClickOnOverlay();
 
 
 

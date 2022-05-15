@@ -3,7 +3,6 @@
   border: none;
   box-shadow: none;
   cursor: pointer;
-  margin-top: 48px;
   margin-bottom: 37px;
   height: 50px;
   width: 100%;
@@ -14,6 +13,7 @@
   font-size: 18px;
   line-height: 22px;
   max-width: 358px;
+  border: 1px solid #000;
 }
 
 .popup__save:hover{
@@ -22,10 +22,9 @@
 
 @media screen and (max-width: 600px) {
   .popup__save {
-    margin-top: 45px;
     height: 46px;
     margin-bottom: 25px;
     font-size: 14px;
-    line-height: 17px;    
-  } 
+    line-height: 17px;
+  }
 }
