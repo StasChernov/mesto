@@ -1,6 +1,7 @@
 .content {
   width: 880px;
   padding-top: 40px;
+  min-height: 70vh;
 }
 
 @media screen and (max-width: 918px) {
@@ -10,5 +11,5 @@
     padding-left: 19px;
     padding-right: 19px;
     width: 100%;
-  } 
+  }
 }

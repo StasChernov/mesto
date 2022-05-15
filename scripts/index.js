@@ -1,19 +1,22 @@
-const openProfileBtn = document.querySelector('.profile__edit-button');
-const openAddPlaceBtn = document.querySelector('.profile__add-button');
+const buttonOpenProfile = document.querySelector('.profile__edit-button');
+const buttonOpenNewCardForm = document.querySelector('.profile__add-button');
 
 const popupEditProfile = document.querySelector('.popup_type_edit-profile');
-const popupAddPlace = document.querySelector('.popup_type_add-place');
+const popupNewCard = document.querySelector('.popup_type_add-place');
 const popupImage = document.querySelector('.popup_type_image');
 
-const closeProfileBtn = popupEditProfile.querySelector('.popup__close');
-const closeAddPlaceBtn = popupAddPlace.querySelector('.popup__close');
-const closeImageBtn = popupImage.querySelector('.popup__close');
+const popupImageCard = popupImage.querySelector('.popup__image');
+const popupImageTitle = popupImage.querySelector('.popup__image-title');
+
+const buttonCloseProfile = popupEditProfile.querySelector('.popup__close');
+const buttonCloseNewCardForm = popupNewCard.querySelector('.popup__close');
+const buttonCloseImage = popupImage.querySelector('.popup__close');
 
 const profileFullName = document.querySelector('.profile__full-name');
 const profileAbout = document.querySelector('.profile__about');
 
-const submitProfile = document.querySelector('.popup__form_type_user-profile');
-const submitNewCard = document.querySelector('.popup__form_type_add-place');
+const profileSubmit = document.querySelector('.popup__form_type_user-profile');
+const newCardSubmit = document.querySelector('.popup__form_type_add-place');
 
 const profilePopupFullName = document.querySelector('.popup__input_type_full-name');
 const profilePopupAbout = document.querySelector('.popup__input_type_about');
@@ -43,12 +46,11 @@ function openPopup(popup) {
 }
 
 function closePopup(popup) {
-  console.dir(popup);
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEscape);
 }
 
-function submitProfileForm(event) {
+function profileSubmitForm(event) {
   event.preventDefault();
   profileFullName.textContent = profilePopupFullName.value;
   profileAbout.textContent = profilePopupAbout.value;
@@ -63,21 +65,19 @@ function deleteCard(event){
   event.target.closest('.element').remove();
 };
 
-function submitNewCardForm(event){
+function newCardSubmitForm(event){
   event.preventDefault();
   renderCard({ name: newCardName.value, link: newCardLink.value});
   newCardName.value = "";
   newCardLink.value = "";
-  closePopup(popupAddPlace);
+  closePopup(popupNewCard);
 };
 
 function openImage(cardData){
-  openPopup(popupImage);
-  const popupImageCard = popupImage.querySelector('.popup__image');
-  const popupImageTitle = popupImage.querySelector('.popup__image-title');
   popupImageCard.src = cardData.link;
   popupImageCard.alt = cardData.name;
   popupImageTitle.textContent = cardData.name;
+  openPopup(popupImage);
 }
 
 function generateCard(cardData){
@@ -117,16 +117,16 @@ function closeByClickOnOverlay(){
   });
 }
 
-openProfileBtn.addEventListener('click', () => openPopupEditProfile(popupEditProfile));
-openAddPlaceBtn.addEventListener('click',() => openPopup(popupAddPlace));
+buttonOpenProfile.addEventListener('click', () => openPopupEditProfile(popupEditProfile));
+buttonOpenNewCardForm.addEventListener('click',() => openPopup(popupNewCard));
 
 
-closeProfileBtn.addEventListener('click', () => closePopup(popupEditProfile));
-closeAddPlaceBtn.addEventListener('click',() => closePopup(popupAddPlace));
-closeImageBtn.addEventListener('click',() => closePopup(popupImage));
+buttonCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
+buttonCloseNewCardForm.addEventListener('click',() => closePopup(popupNewCard));
+buttonCloseImage.addEventListener('click',() => closePopup(popupImage));
 
-submitProfile.addEventListener('submit', submitProfileForm);
-submitNewCard.addEventListener('submit', submitNewCardForm);
+profileSubmit.addEventListener('submit', profileSubmitForm);
+newCardSubmit.addEventListener('submit', newCardSubmitForm);
 
 closeByClickOnOverlay();
 
