@@ -43,6 +43,7 @@ function openPopup(popup) {
 }
 
 function closePopup(popup) {
+  console.dir(popup);
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEscape);
 }
