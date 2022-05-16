@@ -15,8 +15,8 @@ const buttonCloseImage = popupImage.querySelector('.popup__close');
 const profileFullName = document.querySelector('.profile__full-name');
 const profileAbout = document.querySelector('.profile__about');
 
-const profileSubmit = document.querySelector('.popup__form_type_user-profile');
-const newCardSubmit = document.querySelector('.popup__form_type_add-place');
+const profileForm = document.querySelector('.popup__form_type_user-profile');
+const newCardForm = document.querySelector('.popup__form_type_add-place');
 
 const profilePopupFullName = document.querySelector('.popup__input_type_full-name');
 const profilePopupAbout = document.querySelector('.popup__input_type_about');
@@ -27,6 +27,9 @@ const newCardLink = document.querySelector('.popup__input_type_place-link');
 const cardTemplate = document.querySelector('#element-template').content.querySelector('.element');
 
 const cardContainer = document.querySelector('.elements');
+
+const buttonSubmitNewcard = newCardForm.querySelector('.popup__save');
+const buttonSubmitProfile = profileForm.querySelector('.popup__save');
 
 function openPopupEditProfile(popup) {
   profilePopupFullName.value = profileFullName.textContent;
@@ -50,7 +53,7 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePopupByEscape);
 }
 
-function profileSubmitForm(event) {
+function submitProfileForm(event) {
   event.preventDefault();
   profileFullName.textContent = profilePopupFullName.value;
   profileAbout.textContent = profilePopupAbout.value;
@@ -65,11 +68,11 @@ function deleteCard(event){
   event.target.closest('.element').remove();
 };
 
-function newCardSubmitForm(event){
+function submitNewCardForm(event){
   event.preventDefault();
   renderCard({ name: newCardName.value, link: newCardLink.value});
-  newCardName.value = "";
-  newCardLink.value = "";
+  newCardName.value = '';
+  newCardLink.value = '';
   closePopup(popupNewCard);
 };
 
@@ -117,16 +120,24 @@ function closeByClickOnOverlay(){
   });
 }
 
-buttonOpenProfile.addEventListener('click', () => openPopupEditProfile(popupEditProfile));
-buttonOpenNewCardForm.addEventListener('click',() => openPopup(popupNewCard));
+buttonOpenProfile.addEventListener('click', () => {
+  clearAll(profileForm, validationOptions);
+  getButtonEnabled(buttonSubmitProfile, validationOptions.inactiveButtonClass);
+  openPopupEditProfile(popupEditProfile)
+});
 
+buttonOpenNewCardForm.addEventListener('click',() => {
+  clearAll(newCardForm, validationOptions);
+  getButtonDisabled(buttonSubmitNewcard, validationOptions.inactiveButtonClass);
+  openPopup(popupNewCard)
+});
 
 buttonCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
 buttonCloseNewCardForm.addEventListener('click',() => closePopup(popupNewCard));
 buttonCloseImage.addEventListener('click',() => closePopup(popupImage));
 
-profileSubmit.addEventListener('submit', profileSubmitForm);
-newCardSubmit.addEventListener('submit', newCardSubmitForm);
+profileForm.addEventListener('submit', submitProfileForm);
+newCardForm.addEventListener('submit', submitNewCardForm);
 
 closeByClickOnOverlay();
 
