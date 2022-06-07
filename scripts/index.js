@@ -1,3 +1,6 @@
+import { FormValidator } from "./FormValidator.js";
+import { Card } from "./Card.js";
+
 const buttonOpenProfile = document.querySelector('.profile__edit-button');
 const buttonOpenNewCardForm = document.querySelector('.profile__add-button');
 
@@ -24,12 +27,34 @@ const profilePopupAbout = document.querySelector('.popup__input_type_about');
 const newCardName = document.querySelector('.popup__input_type_place-title');
 const newCardLink = document.querySelector('.popup__input_type_place-link');
 
-const cardTemplate = document.querySelector('#element-template').content.querySelector('.element');
-
 const cardContainer = document.querySelector('.elements');
 
-const buttonSubmitNewcard = newCardForm.querySelector('.popup__save');
-const buttonSubmitProfile = profileForm.querySelector('.popup__save');
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 function openPopupEditProfile(popup) {
   profilePopupFullName.value = profileFullName.textContent;
@@ -60,14 +85,6 @@ function submitProfileForm(event) {
   closePopup(popupEditProfile);
 }
 
-function likeCard(event){
-  event.target.closest('.element__like').classList.toggle('element__like_liked');
-};
-
-function deleteCard(event){
-  event.target.closest('.element').remove();
-};
-
 function submitNewCardForm(event){
   event.preventDefault();
   renderCard({ name: newCardName.value, link: newCardLink.value});
@@ -76,31 +93,17 @@ function submitNewCardForm(event){
   closePopup(popupNewCard);
 };
 
-function openImage(cardData){
-  popupImageCard.src = cardData.link;
-  popupImageCard.alt = cardData.name;
-  popupImageTitle.textContent = cardData.name;
+function handleOpenImage(cardName, cardLink){
+  popupImageCard.src = cardLink;
+  popupImageCard.alt = cardName;
+  popupImageTitle.textContent = cardName;
   openPopup(popupImage);
 }
 
 function generateCard(cardData){
-  const newCard = cardTemplate.cloneNode(true);
-
-  const titleCard = newCard.querySelector('.element__title');
-  titleCard.textContent = cardData.name;
-
-  const imageCard = newCard.querySelector('.element__image');
-  imageCard.src = cardData.link;
-  imageCard.alt = cardData.name
-  imageCard.addEventListener('click', () => openImage(cardData));
-
-  const trashButton = newCard.querySelector('.element__trash');
-  trashButton.addEventListener('click', deleteCard);
-
-  const likeButton = newCard.querySelector('.element__like');
-  likeButton.addEventListener('click', likeCard);
-
-  return newCard;
+  const newCard = new Card(cardData, '#element-template', handleOpenImage);
+  const newCardElement = newCard.createCard();
+  return newCardElement;
 }
 
 function renderCard(cardData){
@@ -120,16 +123,25 @@ function closeByClickOnOverlay(){
   });
 }
 
+const validationOptions = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save',
+  inactiveButtonClass: 'popup__save_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 buttonOpenProfile.addEventListener('click', () => {
-  clearAll(profileForm, validationOptions);
-  getButtonEnabled(buttonSubmitProfile, validationOptions.inactiveButtonClass);
+  const profileElement = new FormValidator(validationOptions, profileForm, true);
+  profileElement.enableValidation();
   openPopupEditProfile(popupEditProfile)
 });
 
 buttonOpenNewCardForm.addEventListener('click',() => {
-  clearAll(newCardForm, validationOptions);
-  getButtonDisabled(buttonSubmitNewcard, validationOptions.inactiveButtonClass);
+  const newCardElement = new FormValidator(validationOptions, newCardForm, false);
   openPopup(popupNewCard)
+  newCardElement.enableValidation();
 });
 
 buttonCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));
