@@ -1,5 +1,6 @@
 import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
+import { initialCards } from "./Data.js";
 
 const buttonOpenProfile = document.querySelector('.profile__edit-button');
 const buttonOpenNewCardForm = document.querySelector('.profile__add-button');
@@ -29,37 +30,10 @@ const newCardLink = document.querySelector('.popup__input_type_place-link');
 
 const cardContainer = document.querySelector('.elements');
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-function openPopupEditProfile(popup) {
+function openPopupEditProfile() {
   profilePopupFullName.value = profileFullName.textContent;
   profilePopupAbout.value = profileAbout.textContent;
-  openPopup(popup);
+  openPopup(popupEditProfile);
 }
 
 function closePopupByEscape(evt){
@@ -88,8 +62,6 @@ function submitProfileForm(event) {
 function submitNewCardForm(event){
   event.preventDefault();
   renderCard({ name: newCardName.value, link: newCardLink.value});
-  newCardName.value = '';
-  newCardLink.value = '';
   closePopup(popupNewCard);
 };
 
@@ -132,16 +104,25 @@ const validationOptions = {
   errorClass: 'popup__error_visible'
 }
 
+function clearForm(formId){
+  formId.reset();
+}
+
+const profileElement = new FormValidator(validationOptions, profileForm);
+const newCardElement = new FormValidator(validationOptions, newCardForm);
+newCardElement.enableValidation();
+profileElement.enableValidation();
+
 buttonOpenProfile.addEventListener('click', () => {
-  const profileElement = new FormValidator(validationOptions, profileForm, true);
-  profileElement.enableValidation();
-  openPopupEditProfile(popupEditProfile)
+  clearForm(profileForm);
+  openPopupEditProfile();
+  profileElement.resetValidation();
 });
 
 buttonOpenNewCardForm.addEventListener('click',() => {
-  const newCardElement = new FormValidator(validationOptions, newCardForm, false);
-  openPopup(popupNewCard)
-  newCardElement.enableValidation();
+  clearForm(newCardForm);
+  openPopup(popupNewCard);
+  newCardElement.resetValidation();
 });
 
 buttonCloseProfile.addEventListener('click', () => closePopup(popupEditProfile));

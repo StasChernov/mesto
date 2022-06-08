@@ -12,11 +12,12 @@ export class Card {
   }
 
   _likeCard(event){
-    event.target.closest('.element__like').classList.toggle('element__like_liked');
+    console.log(event);
+    event.target.classList.toggle('element__like_liked');
   };
   
-  _deleteCard(event){
-    event.target.closest('.element').remove();
+  _deleteCard(){
+    this._cardElement.remove();
   };
   
   createCard(){
@@ -27,7 +28,7 @@ export class Card {
 
     this._cardElement.querySelector('.element__image').addEventListener('click', () => this._handleOpenImage(this._cardName, this._cardLink));
   
-    this._cardElement.querySelector('.element__trash').addEventListener('click', this._deleteCard);
+    this._cardElement.querySelector('.element__trash').addEventListener('click', () => this._deleteCard());
     this._cardElement.querySelector('.element__like').addEventListener('click', this._likeCard);
     return this._cardElement;
   }
