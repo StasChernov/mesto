@@ -6,4 +6,4 @@
 В проете применена адаптивная верстка на основе медиазапросов, а также "Flexbox" и "Grid Layout" технологий.
 Запросы обрабатываются при помощи JavaScript.
 
-* [Ссылка на проект](https://staschernov.github.io/mesto/index.html)
+* [Ссылка на проект](https://staschernov.github.io/mesto/src/index.html)
