@@ -10,10 +10,8 @@ import UserInfo from "../components/UserInfo.js";
 import {
   buttonOpenProfile,
   buttonOpenNewCardForm,
-  profileForm,
-  newCardForm,
-  profilePopupFullName,
-  profilePopupAbout,
+  validationOptions,
+  formValidators
 } from '../utils/Constants.js';
 
 function handleCardClick(cardName, cardLink){
@@ -35,19 +33,17 @@ const section = new Section({
 
 section.renderItems();
 
-const validationOptions = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save',
-  inactiveButtonClass: 'popup__save_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
+function enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+   validator.enableValidation();
+  });
+};
 
-const profileElement = new FormValidator(validationOptions, profileForm);
-const newCardElement = new FormValidator(validationOptions, newCardForm);
-newCardElement.enableValidation();
-profileElement.enableValidation();
+enableValidation(validationOptions);
 
 const popupWithImage = new PopupWithImage('.popup_type_image');
 popupWithImage.setEventListeners();
@@ -57,17 +53,16 @@ const userInfo = new UserInfo({userNameSelector: '.profile__full-name', userAbou
 const popupEditForm = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleFormSubmit: (formData) => {
-    userInfo.setUserinfo(formData.user_full_name, formData.user_about);
+    userInfo.setUserInfo(formData.user_full_name, formData.user_about);
   }
 });
 
 popupEditForm.setEventListeners();
 
 buttonOpenProfile.addEventListener('click', () => {
-  const userProfile = userInfo.getUserinfo();  
-  profilePopupFullName.value = userProfile.name;
-  profilePopupAbout.value = userProfile.about;
-  profileElement.resetValidation();
+  const userProfile = userInfo.getUserInfo();
+  popupEditForm.setInputValues(userProfile);
+  formValidators['user-profile'].resetValidation()
   popupEditForm.open();
 });
 
@@ -81,6 +76,6 @@ const popupNewCardForm = new PopupWithForm({
 popupNewCardForm.setEventListeners();
 
 buttonOpenNewCardForm.addEventListener('click', () => {
-  newCardElement.resetValidation();
+  formValidators['add-place'].resetValidation()
   popupNewCardForm.open();
 });

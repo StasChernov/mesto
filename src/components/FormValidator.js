@@ -16,9 +16,9 @@ export class FormValidator{
   enableValidation(){
     this._setEventListeners();
   }
-  
+
   resetValidation(){
-    this._hideAll();
+    this._hideAllErrors();
     this._toggleButtonState();
   }
 
@@ -79,7 +79,7 @@ export class FormValidator{
       }
   };
 
-  _hideAll(){
+  _hideAllErrors(){
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });

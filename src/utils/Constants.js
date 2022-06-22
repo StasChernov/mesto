@@ -28,8 +28,13 @@ export const initialCards = [
 export const buttonOpenProfile = document.querySelector('.profile__edit-button');
 export const buttonOpenNewCardForm = document.querySelector('.profile__add-button');
 
-export const profileForm = document.querySelector('.popup__form_type_user-profile');
-export const newCardForm = document.querySelector('.popup__form_type_add-place');
+export const validationOptions = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save',
+  inactiveButtonClass: 'popup__save_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
 
-export const profilePopupFullName = document.querySelector('.popup__input_type_full-name');
-export const profilePopupAbout = document.querySelector('.popup__input_type_about');
+export const formValidators = {};

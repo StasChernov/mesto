@@ -17,7 +17,6 @@ export class Card {
   }
 
   _likeCard(event){
-    console.log(event);
     event.target.classList.toggle('element__like_liked');
   };
 
