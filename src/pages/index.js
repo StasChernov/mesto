@@ -1,23 +1,20 @@
 import { FormValidator } from "../components/FormValidator.js";
 import { Card } from "../components/Card.js";
-import { initialCards } from "../utils/Data.js";
+import { initialCards } from "../utils/Constants.js";
 
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
-const buttonOpenProfile = document.querySelector('.profile__edit-button');
-const buttonOpenNewCardForm = document.querySelector('.profile__add-button');
-
-const profileFullName = document.querySelector('.profile__full-name');
-const profileAbout = document.querySelector('.profile__about');
-
-const profileForm = document.querySelector('.popup__form_type_user-profile');
-const newCardForm = document.querySelector('.popup__form_type_add-place');
-
-const profilePopupFullName = document.querySelector('.popup__input_type_full-name');
-const profilePopupAbout = document.querySelector('.popup__input_type_about');
+import {
+  buttonOpenProfile,
+  buttonOpenNewCardForm,
+  profileForm,
+  newCardForm,
+  profilePopupFullName,
+  profilePopupAbout,
+} from '../utils/Constants.js';
 
 function handleCardClick(cardName, cardLink){
   popupWithImage.open(cardName, cardLink);
@@ -55,19 +52,21 @@ profileElement.enableValidation();
 const popupWithImage = new PopupWithImage('.popup_type_image');
 popupWithImage.setEventListeners();
 
+const userInfo = new UserInfo({userNameSelector: '.profile__full-name', userAboutSelector: '.profile__about'});
+
 const popupEditForm = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleFormSubmit: (formData) => {
-    profileFullName.textContent = formData.user_full_name;
-    profileAbout.textContent = formData.user_about;
+    userInfo.setUserinfo(formData.user_full_name, formData.user_about);
   }
 });
 
 popupEditForm.setEventListeners();
 
 buttonOpenProfile.addEventListener('click', () => {
-  profilePopupFullName.value = profileFullName.textContent;
-  profilePopupAbout.value = profileAbout.textContent;
+  const userProfile = userInfo.getUserinfo();  
+  profilePopupFullName.value = userProfile.name;
+  profilePopupAbout.value = userProfile.about;
   profileElement.resetValidation();
   popupEditForm.open();
 });
