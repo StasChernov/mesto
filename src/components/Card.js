@@ -38,9 +38,9 @@ export class Card {
     this._cardImage.addEventListener('click', () => this._handleCardClick(this._cardName, this._cardLink));
     if (this._owner) {
       this._cardTrashBtn.classList.add('element__trash_visible');
-      this._cardTrashBtn.addEventListener('click', () => this._handleCardDelete(this._cardId));
+      this._cardTrashBtn.addEventListener('click', () => this._handleCardDelete(this));
     }
-    this._cardLikeBtn.addEventListener('click', () => this._handleCardLike(this._cardId));
+    this._cardLikeBtn.addEventListener('click', () => this._handleCardLike(this));
   }
 
   createCard(){
