@@ -23,13 +23,13 @@ function handleCardClick(cardName, cardLink){
 }
 
 function handleCardLike(card){
-  if (!card._cardLiked) {
-    api.likeCard(card._cardId)
+  if (!card.getLikeStatus()) {
+    api.likeCard(card.getId())
     .then((res) => card.likeCard(res))
     .catch((err) => console.log(`Ошибка: ${err}`))
   }
   else {
-    api.deleteLikeCard(card._cardId)
+    api.deleteLikeCard(card.getId())
     .then((res) => card.likeCard(res))
     .catch((err) => console.log(`Ошибка: ${err}`))
   }
@@ -107,7 +107,7 @@ buttonOpenNewCardForm.addEventListener('click', () => {
 const popupAvatarEditForm = new PopupWithForm({
   popupSelector: '.popup_type_avatar-edit',
   handleFormSubmit: (formData) => {
-    popupAvatarEditForm.renderLoading(false)
+    popupAvatarEditForm.renderLoading(true)
     api.updateAvatar(formData.avatar_edit)
     .then (res => {
       userInfo.setAvatar(res.avatar)

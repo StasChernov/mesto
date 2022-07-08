@@ -19,6 +19,14 @@ export class Card {
     this._cardLiked = false;
   }
 
+  getId(){
+    return this._cardId;
+  }
+
+  getLikeStatus(){
+    return this._cardLiked;
+  }
+
   _getElement(){
     const cardElement = document.querySelector(this._cardTemplateSelector).content.querySelector('.element').cloneNode(true);
     return cardElement;
